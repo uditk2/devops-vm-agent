@@ -6,7 +6,7 @@ set -e
 # verifies the checksum, and installs it to your system.
 
 APP_NAME="vm-server-agent"
-GITHUB_REPO="devops-vm-agent"  # Update this to match your public repo
+GITHUB_REPO="uditk2/devops-vm-agent"
 INSTALL_DIR="/usr/local/bin"
 CONFIG_DIR="/etc/vm-server-agent"
 
