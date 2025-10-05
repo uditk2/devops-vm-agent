@@ -7,7 +7,7 @@ A lightweight agent for VM monitoring and management.
 Install with a single command:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/devops-vm-agent/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/uditk2/devops-vm-agent/main/install.sh | bash
 ```
 
 This installer script will:
