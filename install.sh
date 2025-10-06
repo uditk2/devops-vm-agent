@@ -222,6 +222,20 @@ main() {
         else
             "$APP_NAME" --register --otp "$OTP" --server "$SERVER_URL"
         fi
+
+        print_info "Starting agent..."
+        # Start the agent in the background
+        if command -v nohup >/dev/null 2>&1; then
+            if command -v sudo >/dev/null 2>&1; then
+                sudo nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > /var/log/vm-server-agent.log 2>&1 &
+            else
+                nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > /var/log/vm-server-agent.log 2>&1 &
+            fi
+            print_info "Agent started successfully! Logs: /var/log/vm-server-agent.log"
+        else
+            print_warn "nohup not found. Please start the agent manually:"
+            echo "  sudo $APP_NAME --config ${CONFIG_DIR}/config.yaml"
+        fi
     else
         print_warn "No OTP provided. Skipping automatic registration."
         print_info "Next steps:"
