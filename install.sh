@@ -216,8 +216,12 @@ main() {
         print_info "Registering agent with OTP: $OTP"
         print_info "Server URL: $SERVER_URL"
         print_info "Starting agent registration process..."
-        # Register the agent with the central server
-        "$APP_NAME" --register --otp "$OTP" --server "$SERVER_URL"
+        # Register the agent with the central server (needs permission to write /etc/vm-server-agent/config.yaml)
+        if command -v sudo >/dev/null 2>&1; then
+            sudo "$APP_NAME" --register --otp "$OTP" --server "$SERVER_URL"
+        else
+            "$APP_NAME" --register --otp "$OTP" --server "$SERVER_URL"
+        fi
     else
         print_warn "No OTP provided. Skipping automatic registration."
         print_info "Next steps:"
