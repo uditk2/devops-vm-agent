@@ -226,12 +226,15 @@ main() {
         print_info "Starting agent..."
         # Start the agent in the background
         if command -v nohup >/dev/null 2>&1; then
+            LOG_FILE="/var/log/vm-server-agent.log"
             if command -v sudo >/dev/null 2>&1; then
-                sudo nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > /var/log/vm-server-agent.log 2>&1 &
+                sudo touch "$LOG_FILE"
+                sudo chmod 644 "$LOG_FILE"
+                sudo nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > "$LOG_FILE" 2>&1 &
             else
-                nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > /var/log/vm-server-agent.log 2>&1 &
+                nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > "$LOG_FILE" 2>&1 &
             fi
-            print_info "Agent started successfully! Logs: /var/log/vm-server-agent.log"
+            print_info "Agent started successfully! Logs: $LOG_FILE"
         else
             print_warn "nohup not found. Please start the agent manually:"
             echo "  sudo $APP_NAME --config ${CONFIG_DIR}/config.yaml"
