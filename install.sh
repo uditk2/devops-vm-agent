@@ -228,9 +228,7 @@ main() {
         if command -v nohup >/dev/null 2>&1; then
             LOG_FILE="/var/log/vm-server-agent.log"
             if command -v sudo >/dev/null 2>&1; then
-                sudo touch "$LOG_FILE"
-                sudo chmod 644 "$LOG_FILE"
-                sudo nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > "$LOG_FILE" 2>&1 &
+                sudo sh -c "nohup $APP_NAME --config ${CONFIG_DIR}/config.yaml > $LOG_FILE 2>&1 &"
             else
                 nohup "$APP_NAME" --config "${CONFIG_DIR}/config.yaml" > "$LOG_FILE" 2>&1 &
             fi
