@@ -10,6 +10,10 @@ GITHUB_REPO="uditk2/devops-vm-agent"
 INSTALL_DIR="/usr/local/bin"
 CONFIG_DIR="/etc/vm-server-agent"
 
+# OTP passed as first argument, server URL as second
+OTP="${1:-}"
+SERVER_URL="${2:-http://localhost:3000}"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -207,10 +211,21 @@ main() {
     print_info "=========================================="
     print_info "Installation complete! 🎉"
     echo ""
-    print_info "Next steps:"
-    echo "  1. Create a config file: sudo nano ${CONFIG_DIR}/config.yaml"
-    echo "  2. Run the agent: $APP_NAME"
-    echo "  3. View help: $APP_NAME --help"
+
+    if [ -n "$OTP" ]; then
+        print_info "Registering agent with OTP: $OTP"
+        print_info "Server URL: $SERVER_URL"
+        print_info "Starting agent registration process..."
+        # Register the agent with the central server
+        "$APP_NAME" --register --otp "$OTP" --server "$SERVER_URL"
+    else
+        print_warn "No OTP provided. Skipping automatic registration."
+        print_info "Next steps:"
+        echo "  1. Create a config file: sudo nano ${CONFIG_DIR}/config.yaml"
+        echo "  2. Run the agent: $APP_NAME"
+        echo "  3. View help: $APP_NAME --help"
+    fi
+
     echo ""
 }
 
